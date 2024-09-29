@@ -1,3 +1,5 @@
+import uuid
+import requests
 from fastapi import APIRouter
 
 from api.responses import PointOfInterest, PointTypeEnum
@@ -15,3 +17,14 @@ def test() -> PointOfInterest:
         longitude=6.091082,
         type=PointTypeEnum.cave
     )
+
+
+@router.get("/grottocenter/findRandom")
+def randomEntrance():
+    response = requests.get('https://api.grottocenter.org/api/v1/entrances/findRandom')
+    return response.json()
+
+@router.get("/grottocenter")
+def randomEntrance():
+    response = requests.get('https://api.grottocenter.org/api/v1/entrances/59')
+    return response.json()
