@@ -1,11 +1,13 @@
 import uuid
-import requests
-from fastapi import APIRouter
+from typing import Annotated
+from fastapi import APIRouter, Depends
 
 from api.responses import PointOfInterest, PointTypeEnum
+from api.services.grottocenter import Grottocenter
 
 
 router = APIRouter(prefix="/points")
+CaveDatabase = Annotated[Grottocenter, Depends(Grottocenter)]
 
 @router.get("/")
 def test() -> PointOfInterest:
@@ -18,13 +20,10 @@ def test() -> PointOfInterest:
         type=PointTypeEnum.cave
     )
 
+@router.get("/cave/random")
+def get_random_cave(grottocenter: CaveDatabase):
+    return grottocenter.get_random_entrance()
 
-@router.get("/grottocenter/findRandom")
-def randomEntrance():
-    response = requests.get('https://api.grottocenter.org/api/v1/entrances/findRandom')
-    return response.json()
-
-@router.get("/grottocenter")
-def randomEntrance():
-    response = requests.get('https://api.grottocenter.org/api/v1/entrances/59')
-    return response.json()
+@router.get("/cave/{id}")
+def get_cave_by_id(id: int, grottocenter: CaveDatabase):
+    return grottocenter.get_entrance(id)
