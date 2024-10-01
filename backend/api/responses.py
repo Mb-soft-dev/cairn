@@ -5,9 +5,10 @@ from pydantic import BaseModel
 
 
 class PointTypeEnum(str, Enum):
-    cave = 'gouffre'
-    gite = 'gite'
-    
+    cave = "gouffre"
+    gite = "gite"
+
+
 class PointOfInterest(BaseModel):
     id: UUID
     grottocenter_id: int
@@ -15,3 +16,21 @@ class PointOfInterest(BaseModel):
     latitude: float
     longitude: float
     type: PointTypeEnum
+
+
+class Cave(BaseModel):
+    id: int
+    name: str
+    depth: int
+    length: int
+
+
+class Entrance(BaseModel):
+    id: int
+    name: str
+    depth: int
+    city: str
+    region: str
+    length: int
+    latitude: float
+    longitude: float
