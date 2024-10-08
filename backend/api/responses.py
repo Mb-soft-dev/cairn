@@ -28,9 +28,7 @@ class Cave(BaseModel):
 class Entrance(BaseModel):
     id: int
     name: str
-    depth: int
-    city: str
+    city: str | None
     region: str
-    length: int
-    latitude: float
-    longitude: float
+    latitude: float | None
+    longitude: float | None
