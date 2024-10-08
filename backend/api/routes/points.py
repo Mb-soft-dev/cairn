@@ -1,5 +1,5 @@
 import uuid
-from typing import Annotated
+from typing import Annotated, List
 from fastapi import APIRouter, Depends
 
 from api.responses import Entrance, PointOfInterest, PointTypeEnum
@@ -30,3 +30,19 @@ def get_random_entrance(grottocenter: CaveDatabase) -> Entrance:
 @router.get("/entrance/{id}")
 def get_entrance_by_id(id: int, grottocenter: CaveDatabase) -> Entrance:
     return grottocenter.get_entrance(id)
+
+
+@router.get("/coordinates")
+def get_caves_from_coordinates(
+    south_west_latitude: float,
+    south_west_longitude: float,
+    north_east_latitude: float,
+    north_east_longitude: float,
+    grottocenter: CaveDatabase,
+) -> List[Entrance]:
+    return grottocenter.get_entrances_from_coords(
+        south_west_latitude,
+        south_west_longitude,
+        north_east_latitude,
+        north_east_longitude,
+    )
