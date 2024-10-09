@@ -1,4 +1,4 @@
-## create a new branch with the name fix
+## create a new branch with the name fix and push it to the remote repository
 name: Test Workflow
 
 on:
