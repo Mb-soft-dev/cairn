@@ -1,4 +1,4 @@
-# Description: Automatically open a pull request when a new branch is created. 1234567890
+# Description: Automatically open a pull request when a new branch is created.
 name: Auto Open Pull Request
 
 on:
