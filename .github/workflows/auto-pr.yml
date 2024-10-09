@@ -3,7 +3,12 @@ name: Auto Open Pull Request
 on:
   create:
     branches:
-      - '**'
+      - 'feat/*'
+      - 'fix/*'
+      - 'hotfix/*'
+
+permissions:
+  pull-requests: write
 
 jobs:
   open-pull-request:
