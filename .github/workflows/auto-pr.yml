@@ -1,4 +1,4 @@
-## create a new branch with the name fix-<issue-number>
+## create a new branch with the name fix
 name: Test Workflow
 
 on:
