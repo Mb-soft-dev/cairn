@@ -1,4 +1,4 @@
-# Description: Automatically open a pull request when a new branch is created. 1234567890
+# Description: Automatically open a pull request when a new branch is created
 name: Auto Open Pull Request
 
 on:
@@ -31,26 +31,24 @@ jobs:
         with:
           title: '${{ env.first_commit_message }}'
           body: |
-            $(cat PULL_REQUEST_TEMPLATE/default.md)
+            ## Description
+            Please include a summary of the changes and the related issue. 
+
+            ## How has this been tested?
+            Please describe how you tested the changes made.
+
+            ## Screenshots
+            If applicable, add screenshots to show the changes.
+
+            ## Checklist
+            - [ ] I have added appropriate tests.
+            - [ ] I have updated the documentation if needed.
+          labels: |
+            ${{ startsWith(github.ref, 'refs/heads/fix/') && 'bug' || '' }}
+            ${{ startsWith(github.ref, 'refs/heads/hotfix/') && 'bug' || '' }}
+            waiting review
+          assignees: ${{ github.actor }}
           branch: ${{ github.ref }}
           base: main
           draft: false
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Assign PR to author
-        run: |
-          # Get the PR number
-          PR_NUMBER=$(echo "${{ github.event.pull_request.number }}")
-          # Assign the PR to the author
-          curl -s -X POST https://api.github.com/repos/${{ github.repository }}/issues/$PR_NUMBER/assignees \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -d "{\"assignees\": [\"${{ github.actor }}\"]}"
-
-      - name: Add label to PR
-        run: |
-          # Get the PR number
-          PR_NUMBER=$(echo "${{ github.event.pull_request.number }}")
-          # Add the 'review' label to the PR
-          curl -s -X POST https://api.github.com/repos/${{ github.repository }}/issues/$PR_NUMBER/labels \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -d "{\"labels\": [\"waiting review\"]}"
