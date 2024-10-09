@@ -44,6 +44,8 @@ jobs:
             - [ ] I have added appropriate tests.
             - [ ] I have updated the documentation if needed.
           labels: |
+            ${{ startsWith(github.ref, 'refs/heads/fix/') && 'bug' || '' }}
+            ${{ startsWith(github.ref, 'refs/heads/hotfix/') && 'bug' || '' }}
             waiting review
           assignees: ${{ github.actor }}
           branch: ${{ github.ref }}
