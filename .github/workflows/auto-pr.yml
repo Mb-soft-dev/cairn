@@ -18,7 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-    - name: Get the first commit message
+      - name: Get the first commit message
         id: get_commit
         run: |
           # GET the first commit hash
