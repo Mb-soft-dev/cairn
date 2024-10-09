@@ -1,0 +1,23 @@
+name: Auto Open Pull Request
+
+on:
+  create:
+    branches:
+      - '**'  # Écoute tous les noms de branche
+
+jobs:
+  open-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Open Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: 'Auto PR: ${{ github.ref }}'
+          body: 'This is an automated pull request created when a new branch was detected.'
+          head: ${{ github.ref }}
+          base: main  # Change ceci si tu veux une autre branche de base
+          draft: false  # Change à true si tu veux créer un brouillon
+          token: ${{ secrets.GITHUB_TOKEN }}
