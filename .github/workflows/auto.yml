@@ -1,0 +1,28 @@
+name: Auto PR for feat, fix, and hotfix branches
+
+on:
+  push:
+    branches:
+      - 'feat*'
+      - 'fix*'
+      - 'hotfix*'
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Create Pull Request
+        if: ${{ startsWith(github.event.head_commit.message, 'feat') || startsWith(github.event.head_commit.message, 'fix') || startsWith(github.event.head_commit.message, 'hotfix') }}
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: ${{ github.event.head_commit.message }}
+          title: ${{ github.event.head_commit.message }}
+          body: "This PR has been automatically created to merge changes from the latest commit."
+          branch: ${{ github.ref }}
+          base: main
+          author: github-actions[bot]
+          labels: waiting review
